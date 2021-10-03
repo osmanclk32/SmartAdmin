@@ -1,0 +1,9 @@
+{
+    "editor.autoIndent": "advanced",
+    "javascript.format.placeOpenBraceOnNewLineForControlBlocks": true,
+    "typescript.format.placeOpenBraceOnNewLineForControlBlocks": true,
+    "editor.detectIndentation": false,
+    "typescript.format.insertSpaceAfterOpeningAndBeforeClosingTemplateStringBraces": true,
+    "typescript.format.insertSpaceAfterOpeningAndBeforeClosingJsxExpressionBraces": true,
+    "typescript.format.placeOpenBraceOnNewLineForFunctions": true
+}

@@ -5,7 +5,7 @@
               <div class="d-flex align-items-center container p-0">
                   <div class="page-logo width-mobile-auto m-0 align-items-center justify-content-center p-0 bg-transparent bg-img-none shadow-0 height-9 border-0">
                       <a href="javascript:void(0)" class="page-logo-link press-scale-down d-flex align-items-center">
-                          <img src="../../../../assets/img/logo.png" alt="SmartAdmin WebApp" aria-roledescription="logo">
+                          <img src="assets/img/logo.png" alt="SmartAdmin WebApp" aria-roledescription="logo">
                           <span class="page-logo-text mr-1">SmartAdmin WebApp</span>
                       </a>
                   </div>
@@ -50,16 +50,16 @@
                               Secure login
                           </h1>
                           <div class="card p-4 rounded-plus bg-faded">
-                              <form id="js-login" novalidate="" action="intel_analytics_dashboard.html">
+                              <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
                                   <div class="form-group">
                                       <label class="form-label" for="username">E-mail</label>
-                                      <input type="email" id="username" class="form-control form-control-md" placeholder="seu e-mail ou id de usuário" autofocus required>
+                                      <input type="email" formControlName="username" id="username" class="form-control form-control-md" placeholder="seu e-mail ou id de usuário" autofocus required>
                                       <div class="invalid-feedback"></div>
                                       <div class="help-block">Seu nome de usuário exclusivo para o aplicativo</div>
                                   </div>
                                   <div class="form-group">
                                       <label class="form-label" for="password">Senha</label>
-                                      <input type="password" id="password" class="form-control form-control-md" placeholder="senha"  required>
+                                      <input type="password" formControlName="password" id="password" class="form-control form-control-md" placeholder="senha"  required>
                                       <div class="invalid-feedback"></div>
                                       <div class="help-block">Sua senha</div>
                                   </div>
