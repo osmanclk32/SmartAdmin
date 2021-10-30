@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import {Router,ActivatedRoute } from "@angular/router";
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 
 import { AuthenticationService } from '@app/modules/auth/_services';
@@ -16,22 +16,27 @@ import { AuthenticationService } from '@app/modules/auth/_services';
 export class LoginComponent implements OnInit
 {
 
-    loginForm: FormGroup = new FormGroup({});
+    loginForm!: FormGroup;
     loading = false;
     submitted = false;
-    error = '';
+    isLoginFailed =false;
+    isLoggedIn = false;
+
+    falhaLoginMsg = '';
 
     constructor(private formBuilder: FormBuilder,
                 private route: ActivatedRoute,
                 private router: Router,
                 private authenticationService: AuthenticationService)
     {
-        //this.loginForm = formBuilder.control
 
         //redirecionada para página principal caso esteja logado
-        if (this.authenticationService.currentUserValue)
+        if (this.authenticationService.currentUserValue?.accessToken != undefined  )
         {
+             this.isLoggedIn = true;
+
             this.router.navigate(['/']);
+
         }
     }
 
@@ -40,7 +45,8 @@ export class LoginComponent implements OnInit
         this.loginForm = this.formBuilder.group(
         {
             username: ['', Validators.required],
-            password: ['', Validators.required]
+            password: ['', Validators.compose([Validators.required,Validators.minLength(4)])],
+            rememberMe: ['']
         });
     }
 
@@ -51,23 +57,22 @@ export class LoginComponent implements OnInit
     {
         this.submitted = true;
 
-        if (this.loginForm.invalid)
-        {
-            return;
-        }
-
         this.loading = true;
-        this.authenticationService.login(this.frm.username.value, this.frm.password.value,this.frm.rememberMe.value)
+
+        let remember = this.frm.rememberMe?.value == '' ? false : this.frm.rememberMe.value;
+
+        this.authenticationService.login(this.frm.username.value, this.frm.password.value,remember)
             .pipe(first())
-            .subscribe({
-                next: () => {
+            .subscribe(
+            {
+                next: () =>
+                {
                     // obter url de retorno dos parâmetros de rota ou padrão para '/'
                     const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+
+                    this.isLoggedIn = true;
+
                     this.router.navigate([returnUrl]);
-                },
-                error: error => {
-                    this.error = error;
-                    this.loading = false;
                 }
             });
     }

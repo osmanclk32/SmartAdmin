@@ -17,7 +17,7 @@ namespace SmartAdmin.Infra.Repositories.Interfaces
 
         //int? Inserir(TEntidade obj);
 
-        int Insert(T obj);
+        int? Insert(T obj);
 
         int Update(T obj);
 

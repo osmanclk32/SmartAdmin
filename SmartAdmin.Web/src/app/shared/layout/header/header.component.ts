@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthenticationService } from '@app/modules/auth/_services';
 
 @Component({
   selector: 'sa-header',
@@ -7,7 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor() { }
+    currentUser =  this.authService.currentUserValue.userName;
+    emailCurrentUser =   this.authService.currentUserValue.email;
+
+
+    constructor(private authService: AuthenticationService) { }
+
 
   ngOnInit() {
   }

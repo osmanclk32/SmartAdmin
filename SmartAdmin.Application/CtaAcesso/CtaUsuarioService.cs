@@ -70,5 +70,15 @@ namespace SmartAdmin.AppServices.CtaAcesso
         {
             throw new NotImplementedException();
         }
+
+        public void FazAlgumaCoisa()
+        {
+
+        }
+
+        int? IService<CtaUsuario>.Insert(CtaUsuario obj)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

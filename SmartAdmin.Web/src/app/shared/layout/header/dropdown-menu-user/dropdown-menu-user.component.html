@@ -1,11 +1,11 @@
 <div class="dropdown-header bg-trans-gradient d-flex flex-row py-4 rounded-top">
   <div class="d-flex flex-row align-items-center mt-1 mb-1 color-white">
       <span class="mr-2">
-          <img src="../../../../assets/img/demo/avatars/avatar-m.png" class="rounded-circle profile-image" alt="Dr. Codex Lantern">
+          <img src="../../../../assets/img/demo/avatars/avatar-m.png" class="rounded-circle profile-image" alt="{{currentUser}}">
       </span>
       <div class="info-card-text">
-          <div class="fs-lg text-truncate text-truncate-lg">Dr. Codex Lantern</div>
-          <span class="text-truncate text-truncate-md opacity-80">drlantern&commat;gotbootstrap.com</span>
+          <div class="fs-lg text-truncate text-truncate-lg">{{currentUser}}</div>
+          <span class="text-truncate text-truncate-md opacity-80">{{emailCurrentUser}}</span>
       </div>
   </div>
 </div>
@@ -40,7 +40,7 @@
   </div>
 </div>-->
 <div class="dropdown-divider m-0"></div>
-<a class="dropdown-item fw-500 pt-3 pb-3" >
-  <span data-i18n="drpdwn.page-logout">Sair</span>
-  <span class="float-right fw-n">&commat;codexlantern</span>
+<a class="dropdown-item fw-500 pt-3 pb-3" href="#" (click)="logout()">
+  <span >Sair</span>
+  <span class="float-right fw-n"></span>
 </a>

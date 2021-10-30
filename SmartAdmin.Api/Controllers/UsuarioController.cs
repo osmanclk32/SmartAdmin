@@ -12,6 +12,7 @@ using SmartAdmin.Api.Dtos;
 using SmartAdmin.Identity.Models;
 using SmartAdmin.Infra;
 using SmartAdmin.Api.Security;
+using SmartAdmin.AppServices.CtaAcesso;
 using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 
 
@@ -43,8 +44,10 @@ namespace SmartAdmin.Api.Controllers
 
                 if (result.Succeeded)
                 {
-                    var token = await accessManager.GenerateToken(userCredentials.Email);
+                    var ipUser = IpAddress();
 
+                    var token = await accessManager.GenerateToken(userCredentials.Email, ipUser);
+                    
                     return Ok(new ApiResult<Token>()
                     {
                         Success = true,
@@ -91,7 +94,29 @@ namespace SmartAdmin.Api.Controllers
 
             return Unauthorized();
         }
-        
+
+        [AllowAnonymous]
+        [HttpPost("refresh-token")]
+        public async Task<ActionResult<ApiResult<Token>>> RefreshToken([FromBody]RefreshTokenData userToken, [FromServices] AccessManagerService accessManager)
+        {
+
+            var ipUser = IpAddress();
+
+            var token = await accessManager.RefreshToken(userToken, ipUser);
+
+            if (token != null)
+            {
+                return Ok(new ApiResult<Token>()
+                {
+                    Success = true,
+                    Data = token,
+                    Message = AppConst.AUTH_SUCCESS
+                });
+            }
+
+            return new UnauthorizedObjectResult(new ApiResult<bool> {Success = false, Message = AppConst.INVALID_DATA_TOKEN});
+
+        }
 
         [HttpPost("Register")]
         [AllowAnonymous]
@@ -116,6 +141,16 @@ namespace SmartAdmin.Api.Controllers
             {
                 return this.StatusCode(StatusCodes.Status500InternalServerError, $"Banco Dados Falhou {ex.Message}");
             }
+        }
+
+        private string IpAddress()
+        {
+            if (Request.Headers.ContainsKey("X-Forwarded-For"))
+            {
+                return Request.Headers["X-Forwarded-For"];
+            }
+
+            return HttpContext?.Connection?.RemoteIpAddress?.MapToIPv4().ToString();
         }
     }
 }

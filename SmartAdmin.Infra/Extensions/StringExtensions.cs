@@ -153,5 +153,10 @@ namespace SmartAdmin.Infra.Extensions
             }
             return value.ToUpper();
         }
+
+        public static DateTime ToDateTime(this string value)
+        {
+            return DateTime.Parse(value);
+        }
     }
 }

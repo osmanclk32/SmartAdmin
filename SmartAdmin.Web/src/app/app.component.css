@@ -1,0 +1,5 @@
+/*borda vermelha em inputs inválidos*/
+input.ng-dirty.ng-invalid
+{
+  border: 1px solid red;
+}

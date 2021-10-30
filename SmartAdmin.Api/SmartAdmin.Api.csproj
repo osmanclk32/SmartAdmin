@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\SmartAdmin.Application\SmartAdmin.AppServices.csproj" />
     <ProjectReference Include="..\SmartAdmin.Infra\SmartAdmin.Infra.csproj" />
   </ItemGroup>
 

@@ -65,10 +65,7 @@ namespace SmartAdmin.Infra.Repositories
             throw new NotImplementedException();
         }
 
-        public int Insert(T obj)
-        {
-            throw new NotImplementedException();
-        }
+       
 
         public int Update(T obj)
         {
@@ -114,6 +111,9 @@ namespace SmartAdmin.Infra.Repositories
             }
         }
 
-        
+        public int? Insert(T obj, string sequenceName="")
+        {
+            return _context.Insert(obj, sequenceName);
+        }
     }
 }

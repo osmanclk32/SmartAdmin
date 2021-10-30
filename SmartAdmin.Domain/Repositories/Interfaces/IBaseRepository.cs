@@ -16,7 +16,7 @@ namespace SmartAdmin.Domain.Repositories.Interfaces
 
         //int? Inserir(TEntidade obj);
 
-        int Insert(T obj);
+        int? Insert(T obj, string sequenceName = "");
 
         int Update(T obj);
 

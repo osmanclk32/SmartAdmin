@@ -16,6 +16,8 @@ using Microsoft.AspNetCore.Identity;
 using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 using SmartAdmin.Identity.Models;
 using System.Reflection;
+using SmartAdmin.AppServices.CtaAcesso;
+using SmartAdmin.AppServices.CtaAcesso.Interfaces;
 
 namespace SmartAdmin.Api.Security
 {
@@ -27,6 +29,7 @@ namespace SmartAdmin.Api.Security
         private string _role;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly ISiltTokensApiService _tokensApiService;
 
         /// <summary>
         /// Se TRUE indica que é o primeiro acesso do usuario e que o mesmo deve realizar a troca da 
@@ -42,13 +45,15 @@ namespace SmartAdmin.Api.Security
                                     [FromServices] SignInManager<ApplicationUser> signInManager,
                                     [FromServices] SigningConfigurations signingConfigurations,
                                     [FromServices] TokenConfigurations tokenConfigurations,
-                                    [FromServices] IDistributedCache cache)
+                                    [FromServices] IDistributedCache cache,
+                                    [FromServices] ISiltTokensApiService tokensApiService)
         {
             _signingConfigurations = signingConfigurations;
             _tokenConfigurations = tokenConfigurations;
             _cache = cache;
             _userManager = userManager;
             _signInManager = signInManager;
+            _tokensApiService = tokensApiService;
         }
 
         public async Task<SignInResult> ValidateUserCredentials(AccessCredentials userCredentials)
@@ -108,7 +113,7 @@ namespace SmartAdmin.Api.Security
             return logInResult;
         }
         
-        public async Task<Token> GenerateToken(string emailUser)
+        public async Task<Token> GenerateToken(string emailUser,string ipAddress)
         {
             IList<Claim> claims = new List<Claim>();
 
@@ -167,8 +172,8 @@ namespace SmartAdmin.Api.Security
                     AccessToken = token,
                     RefreshToken = Guid.NewGuid().ToString().Replace("-", String.Empty),
                     FirstAccess = this.FirstAccess,
-                    UserName = this.UserName,
-                    Email = this.Email,
+                    UserName = userIdentity.NomeUsuario,
+                    Email = userIdentity.Email,
                     Message = "OK"
                 };
 
@@ -185,6 +190,8 @@ namespace SmartAdmin.Api.Security
 
                 _cache.SetString(result.RefreshToken, JsonConvert.SerializeObject(refreshTokenData), opcoesCache);
 
+                _tokensApiService.StoreToken(userIdentity.IdUsuario, ipAddress, result.RefreshToken,result.CreationDate,result.Expiration);
+
                 return result;
             }
             catch (Exception ex)
@@ -195,5 +202,29 @@ namespace SmartAdmin.Api.Security
 
         }
 
+        public async Task<Token> RefreshToken(RefreshTokenData userToken, string ipAddress)
+        {
+            try
+            {
+                var userIdentity = await _userManager.FindByNameAsync(userToken.UserName);
+
+                if (userIdentity != null)
+                {
+                    var activeToken = _tokensApiService.Find(t => t.IdUsuario == userIdentity.IdUsuario && t.RefreshToken == userToken.RefreshToken && t.Ativo);
+
+                    if (activeToken != null)
+                    {
+                        return await GenerateToken(userIdentity.Email, ipAddress);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+               
+                throw;
+            }
+
+            return null;
+        }
     }
 }

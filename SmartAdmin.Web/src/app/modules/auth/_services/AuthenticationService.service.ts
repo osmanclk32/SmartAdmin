@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, EMPTY, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { environment } from '@environments/environment';
-import { AccessCredentials,AccessToken,ApiResult } from '@app/modules/auth/_models';
+import { AccessCredentials,AccessToken,ApiResult,RefreshTokenData } from '@app/modules/auth/_models';
 import { Router } from '@angular/router';
 
 
@@ -28,31 +28,52 @@ export class AuthenticationService
 
   	 login(email: string, password: string, remberMe: boolean)
   	 {
-  		  let accessCrendetials = new AccessCredentials(email,password,remberMe);
+  	    let accessCrendetials = new AccessCredentials(email,password,remberMe);
 
-        const headers = new HttpHeaders()
-                            .set('Content-Type', 'application/json')
-                            .set('Accept', 'application/json')
-
-  	   	return this.http.post<ApiResult<AccessToken>>(`${environment.apiEndpoint}/Usuario/Login`, accessCrendetials )
-              			.pipe(map(user =>
-              			{
-              				// armazene os detalhes do usuário e o token jwt no local storage
-              				localStorage.setItem('currentUser', JSON.stringify(user));
-              				this.currentUserSubject.next(user.data);
-              				return user;
-              			}));
+         return this.http.post<ApiResult<AccessToken>>(`${environment.apiEndpoint}/usuario/Login`, accessCrendetials )
+                          			.pipe(map(user =>
+                          			{
+                          				// armazene os detalhes do usuário e o token jwt no local storage
+                          				localStorage.setItem('currentUser', JSON.stringify(user));
+                          				this.currentUserSubject.next(user.data);
+                          				return user;
+                          			}));
 
   	 }
 
-       logout()
-       {
-          let nullToken = {} as AccessToken;
+     logout()
+     {
+        let nullToken = {} as AccessToken;
 
-          //remove os dados o usuario atual da local storage
-          localStorage.removeItem('currentUser');
-          this.currentUserSubject.next(nullToken);
-          this.router.navigate(['/login']);
-       }
+        //remove os dados o usuario atual da local storage
+        localStorage.removeItem('currentUser');
+        this.currentUserSubject.next(nullToken);
+        this.router.navigate(['/login']);
+     }
+
+     refreshToken()
+     {
+        const accessToken = this.currentUserValue;
+
+        if (  accessToken?.userName == undefined )
+        {
+            return EMPTY;
+        }
+
+        let dataRefreshToken: RefreshTokenData =
+        {
+            userName: accessToken.userName,
+            refreshToken: accessToken.refreshToken
+        };
+
+        return this.http.post<ApiResult<AccessToken>>(`${environment.apiEndpoint}/usuario/refresh-token`, {dataRefreshToken})
+            .pipe(map((user) =>
+            {
+               	// armazene os detalhes do usuário e o token jwt no local storage
+                localStorage.setItem('currentUser', JSON.stringify(user));
+                this.currentUserSubject.next(user.data);
+                return user;
+            }));
+     }
 
 }

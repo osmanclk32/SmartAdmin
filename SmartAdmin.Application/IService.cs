@@ -10,7 +10,7 @@ namespace SmartAdmin.AppServices.CtaAcesso
 
         T Find(Expression<Func<T, bool>> where);
 
-        int Insert(T obj);
+        int? Insert(T obj);
 
         int Update(T obj);
 

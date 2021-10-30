@@ -17,5 +17,6 @@ namespace SmartAdmin.Api
         public const string AUTH_SUCCESS = "Autenticação realizada com sucesso.";
         public const string USER_NOT_ALLOWED = "Falha ao autenticar, usuário sem permissão para fazer login.";
         public const string USER_IS_LOCKED_OUT = "Falha ao autenticar, conta de usuário bloqueada.";
+        public const string INVALID_DATA_TOKEN = "Dados inválidos para obtenção de Token";
     }
 }

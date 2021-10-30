@@ -12,6 +12,7 @@ import { LogoModule } from "./layout/logo/logo.module";
 
 
 
+
 @NgModule({
   imports: [
     CommonModule,
@@ -19,7 +20,7 @@ import { LogoModule } from "./layout/logo/logo.module";
      LeftPanelModule,
      NavigationModule,
      LogoModule,
-     HeaderModule,
+     HeaderModule
 
   ],
   declarations: [
@@ -30,7 +31,7 @@ import { LogoModule } from "./layout/logo/logo.module";
     NavigationModule,
     LeftPanelModule,
     LogoModule,
-    HeaderModule,
+    HeaderModule
   ]
 })
 export class SmartAdminLayoutModule {}

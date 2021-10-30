@@ -1,4 +1,6 @@
 using System.Data.Common;
+using System.Text.Json;
+
 using DapperExt;
 using Identity.Dapper.Extensions;
 using Microsoft.AspNetCore.Builder;
@@ -10,8 +12,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
+using Newtonsoft.Json.Serialization;
+
 using SmartAdmin.Api.Resolvers;
 using SmartAdmin.Api.Security;
+using SmartAdmin.AppServices.Extensions;
 using SmartAdmin.Identity.Models;
 using SmartAdmin.Infra.Configuration;
 using SmartAdmin.Infra.Extensions;
@@ -101,15 +106,27 @@ namespace SmartAdmin.Api
 
             services.AddSingleton(signingConfigurations);
 
+            //Injeção de Dependencia para os serviços contidos em SmartAdmin.AppServices
+            services.AddAppServices();
+
             //Cria instância apenas uma vez (primeira solicitação) para validar os dados de acesso.
             services.AddScoped<AccessManagerService>();
+
+           
 
             services.AddAutoMapper(typeof(Startup));
 
             services.AddDistributedMemoryCache();
 
-            services.AddCors();
-            services.AddControllers();
+            services.AddCors(o => o.AddPolicy("SmartAdminApiPolicy", b =>
+            {
+                      b.AllowAnyOrigin()
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+            }));
+
+            services.AddControllers().AddJsonOptions(options => options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase);
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo {Title = "SmartAdmin.Api", Version = "v1"});
@@ -133,6 +150,8 @@ namespace SmartAdmin.Api
             app.UseMultitenancy<ApplicationTenant>();
 
             app.UseAuthentication();
+
+            app.UseCors("SmartAdminApiPolicy");
 
             app.UseStaticFiles();
 

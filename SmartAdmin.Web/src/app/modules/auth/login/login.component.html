@@ -9,9 +9,9 @@
                           <span class="page-logo-text mr-1">SmartAdmin WebApp</span>
                       </a>
                   </div>
-                  <a href="page_register.html" class="btn-link text-white ml-auto">
+                 <!-- <a href="page_register.html" class="btn-link text-white ml-auto">
                       Criar uma conta
-                  </a>
+                  </a>-->
               </div>
           </div>
           <div class="flex-1" style="background: url(img/svg/pattern-1.svg) no-repeat center bottom fixed; background-size: cover;">
@@ -45,33 +45,39 @@
                               </div>
                           </div>
                       </div>
+                      <!--Área do Login-->
                       <div class="col-sm-12 col-md-6 col-lg-5 col-xl-4 ml-auto">
                           <h1 class="text-white fw-300 mb-3 d-sm-block d-md-none">
-                              Secure login
+                              Login
                           </h1>
                           <div class="card p-4 rounded-plus bg-faded">
-                              <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
-                                  <div class="form-group">
+                              <form novalidate  (ngSubmit)="onLogin()" [formGroup]="loginForm">
+
+                                  <div class="form-group flex-wrap">
                                       <label class="form-label" for="username">E-mail</label>
-                                      <input type="email" formControlName="username" id="username" class="form-control form-control-md" placeholder="seu e-mail ou id de usuário" autofocus required>
-                                      <div class="invalid-feedback"></div>
-                                      <div class="help-block">Seu nome de usuário exclusivo para o aplicativo</div>
+                                      <input type="email" formControlName="username" id="username"
+                                             class="form-control form-control-md" placeholder="seu e-mail ou id de usuário"
+                                             autofocus required >
                                   </div>
+
                                   <div class="form-group">
                                       <label class="form-label" for="password">Senha</label>
-                                      <input type="password" formControlName="password" id="password" class="form-control form-control-md" placeholder="senha"  required>
-                                      <div class="invalid-feedback"></div>
-                                      <div class="help-block">Sua senha</div>
+                                      <input type="password" formControlName="password" id="password"
+                                          class="form-control form-control-md" placeholder="senha" required>
                                   </div>
+
                                   <div class="form-group text-left">
                                       <div class="custom-control custom-checkbox">
-                                          <input type="checkbox" class="custom-control-input" id="rememberme">
-                                          <label class="custom-control-label" for="rememberme"> Lembre-se de mim pelos próximos 30 dias</label>
+                                          <input type="checkbox" formControlName="rememberMe"
+                                              class="custom-control-input" id="rememberMe">
+                                          <label class="custom-control-label" for="rememberMe"> Lembre-se de mim pelos
+                                              próximos 30 dias</label>
                                       </div>
                                   </div>
+
                                   <div class="row no-gutters">
                                       <div class="col-lg-12 pl-lg-1 text-center">
-                                          <button id="js-login-btn" type="submit" class="btn btn-danger btn-block btn-lg">Entrar</button>
+                                          <button id="js-login-btn" type="submit" [disabled]="!loginForm.valid"  class="btn btn-danger btn-block btn-lg">Entrar</button>
                                       </div>
                                   </div>
                               </form>
