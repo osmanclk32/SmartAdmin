@@ -1,0 +1,45 @@
+ <div class="container-fluid">
+        <div class="container">
+            <div class="col-xl-10 col-lg-11 login-container">
+                <div class="row">
+                    <div class="col-lg-7 img-box">
+                        <img src="assets/img/login-banner.png" alt="">
+                    </div>
+                    <div class="col-lg-5 no-padding">
+                        <div class="login-box">
+                            <h5>Bem vindo ao <strong>Smart Business</strong></h5>
+
+                            <form novalidate (ngSubmit)="onLogin()" [formGroup]="loginForm">
+                              <div class="login-row row no-margin">
+                                  <label for=""><i class="fas fa-envelope"></i> Email</label>
+                                  <input type="email" class="form-control form-control-sm" formControlName="userName" id="userName" placeholder=" " autofocus>
+                              </div>
+
+                              <div class="login-row row no-margin">
+                                  <label for=""><i class="fas fa-unlock-alt"></i> Senha</label>
+                                  <input type="password" class="form-control form-control-sm" formControlName="password" id="password" placeholder=" ">
+                              </div>
+
+                              <div class="login-row row forrr no-margin">
+                                  <p><a href="">Esqueceu a senha?</a></p>
+                                <p> <input type="checkbox" formControlName="manterConectado"> Mantenha-me conectado</p>
+                              </div>
+
+                              <div class="login-row btnroo row no-margin text-center">
+                                <button type="submit" class="btn btn-primary btn-sm" [disabled]="!loginForm.valid"> Entrar</button>
+                                <!-- <button class="btn btn-light  btn-sm"> Create Account</button>-->
+                              </div>
+                            <!-- <div class="login-row donroo row no-margin">
+                                <p>Dont have an Account ? <a href="">Sign Up</a></p>
+                              </div>>-->
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="copyc">
+          2021 © Smart Business by&nbsp;<a href='https://www.siltecsoftware.com.br' class='text-blue opacity-40 fw-500' title='siltecsoftware.com.br' target='_blank'>siltecsoftware.com.br</a>
+    </div>

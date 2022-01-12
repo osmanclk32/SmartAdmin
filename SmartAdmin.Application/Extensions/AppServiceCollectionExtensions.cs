@@ -17,6 +17,7 @@ namespace SmartAdmin.AppServices.Extensions
             //Cria instancias de Repositorios cada vez que for acessado
             services.AddTransient<ISiltTokensApi, SiltTokensApiRepository>();
             services.AddTransient<ICtaUsuario, CtaUsuarioRepository>();
+            services.AddTransient<IVwCtaItensMenuGrupo, VwCtaItensMenuGrupoRepository>();
 
             //Cria innstacias de Serviços apenas uma vez (primeira solicitação)
             services.AddScoped<ISiltTokensApiService, SiltTokensApiService>();

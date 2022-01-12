@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using SmartAdmin.Domain.Entities;
 
-namespace SmartAdmin.AppServices.CtaAcesso
+namespace SmartAdmin.AppServices
 {
-    public interface IService<T> where T : class
+    public interface IService<T> where T : EntityBase
     {
         IList<T> List(Expression<Func<T, bool>> where);
 

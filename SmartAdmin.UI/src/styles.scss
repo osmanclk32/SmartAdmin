@@ -1,0 +1,42 @@
+/* É possivel adicionar aquibestilos globais a este arquivo e também importar outros arquivos de estilo */
+
+/*
+Personalizações SmartAdmin
+*/
+
+// personalização de funções de bootstrap
+@import "./styles/bootstrap-functions";
+
+// personalização de variáveis de bootstrap
+@import "./styles/bootstrap-variables";
+
+//build da biblioteca de bootstrap
+@import "../node_modules/bootstrap/scss/bootstrap";
+
+@import "../node_modules/bootstrap/scss/mixins";
+
+@import "./styles/variables";
+
+// build Font Awesome Icons
+@import "../node_modules/@fortawesome/fontawesome-free/scss/fontawesome";
+@import "../node_modules/@fortawesome/fontawesome-free/scss/solid";
+@import "../node_modules/@fortawesome/fontawesome-free/scss/regular";
+@import "../node_modules/@fortawesome/fontawesome-free/scss/brands";
+
+// build AdminLTE theme styles
+@import "../node_modules/admin-lte/build/scss/AdminLTE";
+
+// Google Font: Source Sans Pro
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700');
+
+// regular style toast
+@import '~ngx-toastr/toastr';
+// bootstrap style toast
+// or import a bootstrap 4 alert styled design (SASS ONLY)
+// should be after your bootstrap imports, it uses bs4 variables, mixins, functions
+@import '~ngx-toastr/toastr-bs4-alert';
+// if you'd like to use it without importing all of bootstrap it requires
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
+@import '~ngx-toastr/toastr-bs4-alert';

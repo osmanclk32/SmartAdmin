@@ -28,13 +28,12 @@ namespace SmartAdmin.Infra.Extensions
             }).AddJwtBearer(bearerOptions =>
             {
                 var paramsValidation = bearerOptions.TokenValidationParameters;
-
-                // Verifica se um token recebido ainda é válido
-                paramsValidation.ValidateLifetime = true;
-
-                paramsValidation.IssuerSigningKey = signingConfigurations.Key;
-                paramsValidation.ValidAudience = tokenConfigurations.Audience;
+                
+                paramsValidation.IssuerSigningKey = signingConfigurations.SigningCredentials.Key;
+                paramsValidation.ValidAudience =  tokenConfigurations.Audience;
                 paramsValidation.ValidIssuer = tokenConfigurations.Issuer;
+
+                paramsValidation.ValidateIssuerSigningKey = true;
 
                 // Verifica se um token recebido ainda é válido
                 paramsValidation.ValidateLifetime = true;
@@ -62,7 +61,7 @@ namespace SmartAdmin.Infra.Extensions
 
             // Ativa o uso do token como forma de autorizar o acesso aos recursos da API
             services.AddAuthorization(auth => auth.AddPolicy("Bearer", new AuthorizationPolicyBuilder()
-                    .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme.ToString())
+                    .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
                     .RequireAuthenticatedUser().Build()
                     ));
 

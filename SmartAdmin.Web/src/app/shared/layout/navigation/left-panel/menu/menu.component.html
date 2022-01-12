@@ -1,0 +1,32 @@
+
+<ul id="js-nav-menu" class="nav-menu">
+
+    <ng-container *ngFor="let item of itensMenu">
+
+        <li class="">
+
+            <a href="#" title="{{item.tituloMenu}}">
+                <i class="'{{item.imagem }}'"></i>
+                <span class="nav-link-text" data-i18n="">{{ item.tituloMenu }}</span>
+                <b class="collapse-sign"
+                ><em
+                    class='fal fa-angle-down'
+                ></em
+                ></b>
+            </a>
+            <ul>
+
+               <ng-container *ngFor="let subItem of item.subMenus">
+                    <li class="">
+                        <a href="#">
+                            <span class="nav-link-text" data-i18n="">{{subItem.tituloMenu}}</span>
+                        </a>
+                    </li>
+               </ng-container>
+
+            </ul>
+        </li>
+
+    </ng-container>
+
+</ul>

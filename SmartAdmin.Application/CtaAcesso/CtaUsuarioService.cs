@@ -4,16 +4,19 @@ using System.Linq.Expressions;
 using SmartAdmin.AppServices.CtaAcesso.Interfaces;
 using SmartAdmin.Domain.Entities.CtAcesso;
 using SmartAdmin.Domain.Repositories.Interfaces.CtAcesso;
+using SmartAdmin.Infra.Repositories.CtAcesso;
 
 namespace SmartAdmin.AppServices.CtaAcesso
 {
     public class CtaUsuarioService : ICtaUsuarioService 
     {
         private readonly ICtaUsuario _ctaUsuario;
+        private readonly IVwCtaItensMenuGrupo _vwCtaItensMenuGrupo;
 
-        public CtaUsuarioService(ICtaUsuario ctaUsuario)
+        public CtaUsuarioService(ICtaUsuario ctaUsuario,IVwCtaItensMenuGrupo vwCtaItensMenuGrupo)
         {
             _ctaUsuario = ctaUsuario;
+            _vwCtaItensMenuGrupo = vwCtaItensMenuGrupo;
         }
 
         public int Count()
@@ -80,5 +83,11 @@ namespace SmartAdmin.AppServices.CtaAcesso
         {
             throw new NotImplementedException();
         }
+
+        public List<VwCtaItensMenuGrupo> ListaItensMenu(Expression<Func<VwCtaItensMenuGrupo, bool>> where)
+        {
+            return _vwCtaItensMenuGrupo.List(where) as List<VwCtaItensMenuGrupo>;
+        }
+        
     }
 }

@@ -1,14 +1,17 @@
-﻿using AutoMapper;
+﻿using System.Collections.Generic;
+using AutoMapper;
 using SmartAdmin.Api.Dtos;
+using SmartAdmin.Domain.Entities.CtAcesso;
 using SmartAdmin.Identity.Models;
 
 namespace SmartAdmin.Infra
 {
-    public class AutoMapperProfiles : Profile
+    public class AutoMapperProfiles : Profile   
     {
         public AutoMapperProfiles()
         {
             CreateMap<UserApp,ApplicationUser >().ReverseMap();
+            //CreateMap<VwCtaItensMenuGrupo, ItensMenuGrupo>().ReverseMap();
 
             //CreateMap<Palestrante, PalestranteDto>()
             //    .ForMember(dest => dest.Eventos, opt => {

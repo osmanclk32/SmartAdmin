@@ -74,7 +74,15 @@ namespace SmartAdmin.Infra.Repositories
 
         public IList<T> List(Expression<Func<T, bool>> where)
         {
-            throw new NotImplementedException();
+            try
+            {
+                return _context.Query<T>( where).AsList();
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         public IList<T> ListAll()

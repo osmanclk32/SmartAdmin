@@ -1,0 +1,68 @@
+<aside class="main-sidebar sidebar-light-info elevation-4">
+  <!-- Brand Logo -->
+  <a href="/" class="brand-link">
+    <img src="assets/img/logo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+      style="opacity: .8">
+    <span class="brand-text font-weight-light">Smart Business</span>
+  </a>
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <!-- Sidebar user panel (optional) -->
+    <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+      <div class="image">
+        <img src="assets/img/usuario1.png" class="img-circle elevation-2" alt="{{currentUser}}">
+      </div>
+      <div class="info">
+        <a href="#" class="d-block">{{currentUser}}</a>
+      </div>
+    </div>
+
+    <!-- SidebarSearch Form -->
+    <div class="form-inline">
+      <div class="input-group" data-widget="sidebar-search">
+        <input class="form-control form-control-sidebar" type="search" placeholder="Pesquisa" aria-label="Search">
+        <div class="input-group-append">
+          <button class="btn btn-sidebar">
+            <i class="fas fa-search fa-fw"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sidebar Menu -->
+    <nav class="mt-2">
+      <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+
+        <ng-container *ngFor="let item of itensMenu">
+
+          <li class="nav-header"><strong> {{item.tituloMenu}}</strong></li>
+
+            <!--Itens de submenu nivel 2 -->
+            <ng-container *ngFor="let subItem of item.subMenus">
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="{{subItem.imagem}}"></i>
+                  &nbsp;<p>{{subItem.tituloMenu}}</p>
+                   <i class="fas fa-angle-left right"></i>
+                </a>
+                <ul class="nav nav-treeview" *ngIf="subItem.subMenus.length > 0">
+                  <!--Itens de submenu nivel 3 -->
+                  <li class="nav-item" *ngFor='let nivel3 of subItem.subMenus'>
+                    <a href="#" routerLink={{nivel3.actionName}}  class="nav-link">
+                      <i class="far fa-dot-circle nav-icon"></i>
+                      <p>{{nivel3.tituloMenu}}</p>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+            </ng-container>
+
+        </ng-container>
+
+      </ul>
+    </nav>
+    <!-- /.sidebar-menu -->
+  </div>
+  <!-- /.sidebar -->
+</aside>

@@ -1,3 +1,4 @@
+
 import {NgModule} from "@angular/core";
 import {CommonModule} from "@angular/common";
 import {RouterModule} from "@angular/router";
@@ -9,7 +10,8 @@ import { NavigationModule } from "./layout/navigation/navigation.module";
 import { LeftPanelModule } from "./layout/navigation/left-panel/left-panel.module";
 import { HeaderModule } from "./layout/header/header.module";
 import { LogoModule } from "./layout/logo/logo.module";
-
+import { PageFooterComponent } from './layout/page-footer/page-footer.component';
+import { PageFooterModule } from "./layout/page-footer/page-footer.module";
 
 
 
@@ -20,8 +22,8 @@ import { LogoModule } from "./layout/logo/logo.module";
      LeftPanelModule,
      NavigationModule,
      LogoModule,
-     HeaderModule
-
+     HeaderModule,
+     PageFooterModule
   ],
   declarations: [
     MainLayoutComponent,
@@ -31,7 +33,8 @@ import { LogoModule } from "./layout/logo/logo.module";
     NavigationModule,
     LeftPanelModule,
     LogoModule,
-    HeaderModule
+    HeaderModule,
+    PageFooterComponent
   ]
 })
 export class SmartAdminLayoutModule {}
